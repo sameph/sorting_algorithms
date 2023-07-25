@@ -1,96 +1,47 @@
 #include "sort.h"
 
 /**
- * swap_left -swap two nodes right left position
- * @list: list
- *Return: NULL
- *
- **/
-void swap_left(listint_t *list)
-{
-	listint_t *tmp, *head;
-
-	while (list->prev != NULL)
-	{
-		if (list->n < list->prev->n)
-		{
-			tmp = list->prev->prev;
-			list->prev->next = list->next;
-			list->next = list->prev;
-			list->prev->prev = list;
-			list->prev = tmp;
-			list->next->next->prev = list->next;
-			if (tmp != NULL)
-				tmp->next = list;
-			head = list;
-			while (head->prev != NULL)
-				head = head->prev;
-			print_list(head);
-		}
-		else
-			list = list->prev;
-	}
-}
-
-/**
- * swap_right -swap two nodes left rigth position
- * @l: list
- * Return: Null
- **/
-void swap_right(listint_t *l)
-{
-	listint_t *tmp, *head;
-
-	tmp = l->prev;
-
-	if (tmp != NULL)
-	{
-		tmp->next = l->next;
-		l->next->prev = tmp;
-	}
-	else
-		l->next->prev = NULL;
-	l->prev = l->next;
-	if (l->next->next != NULL)
-	{
-		l->next = l->next->next;
-		l->prev->next = l;
-		l->next->prev = l;
-	}
-	else
-	{
-		l->next->next = l;
-		l->next = NULL;
-	}
-	head = l;
-	while (head->prev != NULL)
-		head = head->prev;
-	print_list(head);
-	swap_left(l->prev);
-}
-
-/**
- * insertion_sort_list -sorts a doubly linked list in ascending order
- * @list: list
- * Return: NULL
+ * swap - swaps two integers in an array
+ * @a: first number
+ * @b: second number
  */
-void insertion_sort_list(listint_t **list)
+void swap(int *a, int *b)
 {
-	listint_t *l;
+	int tmp = *a;
 
-	if ((list == NULL) || (*list == NULL) || ((*list)->next == NULL))
-		return;
-	l = *list;
+	*a = *b;
+	*b = tmp;
+}
 
-	while (l->next != NULL)
+/**
+ * selection_sort - implementing the selection sort
+ * @array: the array to be sorted
+ * @size:size of the array
+ */
+void selection_sort(int *array, size_t size)
+{
+	/**
+	 * look for the smallest element
+	 * swap the smallest element with the current
+	 */
+	unsigned int i = 0, j = 0, tmp_loc = 0;
+	int tmp;
+
+	while (i < size)
 	{
-		if (l->n > l->next->n)
+		j = i;
+		tmp = array[j], tmp_loc = j;
+		while (j < size)
 		{
-			swap_right(l);
+			if (array[j] < tmp)
+				tmp = array[j], tmp_loc = j;
+			j++;
 		}
-		else
-			l = l->next;
+		if (array[i] != array[tmp_loc])
+		{
+			swap(array + i, array + tmp_loc);
+			print_array(array, size);
+		}
+		i++;
 	}
-	while ((*list)->prev != NULL)
-		*list = (*list)->prev;
 }
