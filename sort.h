@@ -18,6 +18,6 @@ typedef struct listint_s
 int main(void);
 void print_array(const int *array, size_t size);
 void bubble_sort(int *array, size_t size);
-void swap_int(int a, int b);
+void swap_int(int *a, int *b);
 
 #endif
